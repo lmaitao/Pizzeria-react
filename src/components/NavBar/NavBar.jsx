@@ -8,6 +8,7 @@ import {
   faSignOutAlt,
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const total = 25000;
@@ -46,7 +47,8 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <a className="nav-link" href="#">
-                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" /> Home
+                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" /> 
+                <Link to="../Home">Home</Link>
               </a>
             </li>
             {token ? (
@@ -68,13 +70,14 @@ const Navbar = () => {
               <>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    <FontAwesomeIcon icon={faLock} className="me-1" /> Login
+                    <FontAwesomeIcon icon={faLock} className="me-1" />
+                    <Link to="/login" target="_blank" rel="noopener noreferrer">Login</Link>
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     <FontAwesomeIcon icon={faUserPlus} className="me-1" />{" "}
-                    Register
+                    <Link to="/register" target="_blank" rel="noopener noreferrer">Register</Link>
                   </a>
                 </li>
               </>
