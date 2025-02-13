@@ -1,8 +1,8 @@
 .card-container {
-  width: 350px; 
-  height: 500px; 
-  perspective: 1000px; 
-  margin: 20px; 
+  width: 350px;
+  height: 500px;
+  perspective: 1000px;
+  margin: 20px;
 }
 
 .card {
@@ -15,7 +15,7 @@
 }
 
 .card:hover {
-  transform: rotateY(180deg); 
+  transform: rotateY(180deg);
 }
 
 .card-front,
@@ -78,22 +78,22 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
 }
 
 .ver-mas {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
 
 .add-to-cart {
-  background-color: #007bff; 
+  background-color: #bb4e0b;
   color: white;
 }
 
 .ver-mas:hover,
 .add-to-cart:hover {
-  transform: scale(1.1); 
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
+  transform: scale(1.1);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .card-grid {

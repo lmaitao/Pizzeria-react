@@ -1,4 +1,3 @@
-import "./Navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPizzaSlice,
@@ -47,7 +46,7 @@ const Navbar = () => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <a className="nav-link" href="#">
-                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" /> 
+                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
                 <Link to="../Home">Home</Link>
               </a>
             </li>
