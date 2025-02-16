@@ -1,0 +1,9 @@
+.pizzas-container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-left: 80px;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
+}

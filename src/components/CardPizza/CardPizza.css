@@ -1,84 +1,92 @@
 .card-container {
-  width: 350px;
-  height: 500px;
-  perspective: 1000px;
-  margin: 20px;
-}
-
-.card {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
   width: 100%;
-  height: 100%;
-  position: relative;
-  transition: transform 0.8s ease-in-out;
-  transform-style: preserve-3d;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden; 
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px; 
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); 
-}
-
-.card-front {
-  background-color: #f0f0f0; 
-}
-
-.card-back {
-  background-color: #e0e0e0;
-  transform: rotateY(180deg);
+  margin: 20px auto;
 }
 
 .card-image {
   width: 100%;
-  height: 250px; 
-  object-fit: cover; 
-  border-top-left-radius: 10px; 
-  border-top-right-radius: 10px;
+  height: 250px;
+  object-fit: contain;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
-.card-details {
+.card {
+  width: 350px;
+  height: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+  margin: 10px;
+  min-width: 350px;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.card-front,
+.card-back {
   padding: 20px;
 }
 
+.card-details {
+  display: flex;
+  flex-direction: column;
+}
+
 .card-name {
-  margin-bottom: 10px;
+  font-size: 1.2em;
+  margin-bottom: 5px;
 }
 
 .card-price {
+  font-size: 1.1em;
   margin-bottom: 10px;
 }
 
 .card-ingredients {
-  list-style: none;
-  padding: 0;
+  list-style-type: disc;
+  padding-left: 20px;
   margin-bottom: 10px;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.quantity-selector button {
+  padding: 8px 15px;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+  font-size: 1.1em;
+}
+
+.quantity-selector span {
+  margin: 0 15px;
+  font-size: 1.1em;
 }
 
 .card-buttons {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: auto;
 }
 
-.ver-mas,
-.add-to-cart {
+.card-buttons button {
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
+  font-size: 1.1em;
 }
 
 .ver-mas {
@@ -86,19 +94,6 @@
 }
 
 .add-to-cart {
-  background-color: #bb4e0b;
+  background-color: #d91484;
   color: white;
-}
-
-.ver-mas:hover,
-.add-to-cart:hover {
-  transform: scale(1.1);
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 20px; /* Espacio entre las tarjetas */
-  padding: 20px;
 }

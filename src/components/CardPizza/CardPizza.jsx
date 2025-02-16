@@ -1,6 +1,21 @@
-import "./CardPizza.css";
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
+import '../CardPizza/CardPizza.css';
 
-const CardPizza = ({ name, price, ingredients, img }) => {
+const CardPizza = ({ name, price, ingredients, img, addToCart }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    addToCart({
+      name,
+      price,
+      ingredients,
+      img,
+      quantity,
+      total: price * quantity,
+    });
+  };
+
   return (
     <div className="card-container">
       <div className="card">
@@ -14,9 +29,21 @@ const CardPizza = ({ name, price, ingredients, img }) => {
                 <li key={index}>{ingredient}</li>
               ))}
             </ul>
+            <div className="quantity-selector">
+              <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>
+                -
+              </button>
+              <span>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)}>+</button>
+            </div>
             <div className="card-buttons">
               <button className="ver-mas">Ver más</button>
-              <button className="add-to-cart">Añadir al carrito</button>
+              <button
+                className="add-to-cart"
+                onClick={handleAddToCart}
+              >
+                Añadir al carrito
+              </button>
             </div>
           </div>
         </div>

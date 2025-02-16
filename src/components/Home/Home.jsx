@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import Header from "../Header/Header";
 import CardPizza from "../CardPizza/CardPizza";
+import Cart from '../Cart/Cart'
+import '../Home/Home.css'
+
 function Home() {
   const pizzas = [
     {
@@ -21,16 +25,34 @@ function Home() {
       img: "https://firebasestorage.googleapis.com/v0/b/apis-varias-mias.appspot.com/o/pizzeria%2Fpizza-1239077_640_com.jpg?alt=media&token=e7cde87a-08d5-4040-ac54-90f6c31eb3e3",
     },
   ];
+
+  const [cart, setCart] = useState([]); 
+
+  const addToCart = (pizza, quantity) => {
+    const existingPizza = cart.find(item => item.name === pizza.name);
+    if (existingPizza) {
+      setCart(cart.map(item =>
+        item.name === pizza.name ? { ...item, quantity: item.quantity + quantity } : item
+      ));
+    } else {
+      setCart([...cart, { ...pizza, quantity }]);
+    }
+  };
+
   return (
-    <>
+    <div>
       <Header />
-      <div className="card-grid">
-        {" "}
-        {pizzas.map((pizza, index) => (
-          <CardPizza key={index} {...pizza} />
+      <div className="pizzas-container">
+        {pizzas.map(pizza => (
+          <CardPizza
+            key={pizza.name}
+            {...pizza}
+            addToCart={addToCart}
+          />
         ))}
       </div>
-    </>
+      <Cart pizzaCart={cart} />
+    </div>
   );
 }
 
