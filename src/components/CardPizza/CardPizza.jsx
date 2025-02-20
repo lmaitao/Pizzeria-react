@@ -2,18 +2,23 @@
 import { useState } from 'react';
 import '../CardPizza/CardPizza.css';
 
-const CardPizza = ({ name, price, ingredients, img, addToCart }) => {
+const CardPizza = ({ name, price, ingredients, img }) => {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    addToCart({
+    const pizzaToAdd = {
       name,
       price,
       ingredients,
       img,
       quantity,
       total: price * quantity,
+    };
+
+    const addToCartEvent = new CustomEvent('addToCart', {
+      detail: pizzaToAdd,
     });
+    window.dispatchEvent(addToCartEvent);
   };
 
   return (
@@ -30,7 +35,9 @@ const CardPizza = ({ name, price, ingredients, img, addToCart }) => {
               ))}
             </ul>
             <div className="quantity-selector">
-              <button onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}>
+              <button
+                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+              >
                 -
               </button>
               <span>{quantity}</span>
@@ -38,10 +45,7 @@ const CardPizza = ({ name, price, ingredients, img, addToCart }) => {
             </div>
             <div className="card-buttons">
               <button className="ver-mas">Ver más</button>
-              <button
-                className="add-to-cart"
-                onClick={handleAddToCart}
-              >
+              <button className="add-to-cart" onClick={handleAddToCart}>
                 Añadir al carrito
               </button>
             </div>
