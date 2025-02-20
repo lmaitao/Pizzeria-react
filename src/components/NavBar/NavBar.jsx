@@ -47,7 +47,7 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="#">
                 <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
-                <Link to="../Home">Home</Link>
+                <Link to="./home">Home</Link>
               </a>
             </li>
             {token ? (

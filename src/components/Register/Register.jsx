@@ -35,7 +35,7 @@ const Register = () => {
 
   return (
     <div className="pizza-form">
-      <h2>Registro Pizzeria Mamam Mia</h2>
+      <h2>Registro Pizzeria Mamma Mia</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="email">Email:</label>

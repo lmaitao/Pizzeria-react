@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../Login/Login.css';
 
 const Login = () => {
@@ -30,6 +30,17 @@ const Login = () => {
       setSuccess('');
     }
   };
+
+  useEffect(() => {
+    if (error || success) {
+      const timer = setTimeout(() => {
+        setError('');
+        setSuccess('');
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error, success]);
 
   return (
     <div className="login-container">
