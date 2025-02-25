@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../components/Login/Login.css';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +27,8 @@ const Login = () => {
     if (email === 'test@example.com' && password === 'password123') {
       setSuccess('¡Inicio de sesión exitoso!');
       setError('');
+      onLoginSuccess();
+      navigate('/profile');
     } else {
       setError('Credenciales incorrectas.');
       setSuccess('');

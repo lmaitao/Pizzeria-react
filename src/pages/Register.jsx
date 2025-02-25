@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import '../components/Register/Register.css'
+import { useNavigate } from 'react-router-dom';
+import '../components/Register/Register.css';
 
-const Register = () => {
+const Register = ({ onRegisterSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,9 +30,10 @@ const Register = () => {
       return;
     }
 
-    console.log('Datos del formulario:', { email, password });
-
-    setSuccess('Registro exitoso.');
+    setTimeout(() => {
+      onRegisterSuccess();
+      navigate('/profile');
+    }, 1000);
   };
 
   return (

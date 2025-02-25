@@ -7,16 +7,73 @@ import {
   faSignOutAlt,
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "../Cart/Cart.css";
 
-const Navbar = () => {
-  const total = 25000;
-  const token = false;
+const Navbar = ({ isLoggedIn, onLogout }) => {
+  const [pizzaCart, setPizzaCart] = useState([]);
+  const [showCartDetail, setShowCartDetail] = useState(false);
+
+  useEffect(() => {
+    const handleAddToCartEvent = (event) => {
+      const pizzaToAdd = event.detail;
+      setPizzaCart((prevCart) => {
+        const existingPizzaIndex = prevCart.findIndex(
+          (pizza) => pizza.name === pizzaToAdd.name
+        );
+
+        if (existingPizzaIndex !== -1) {
+          const updatedCart = [...prevCart];
+          updatedCart[existingPizzaIndex].quantity += pizzaToAdd.quantity;
+          updatedCart[existingPizzaIndex].total =
+            updatedCart[existingPizzaIndex].quantity *
+            updatedCart[existingPizzaIndex].price;
+          return updatedCart;
+        } else {
+          return [...prevCart, pizzaToAdd];
+        }
+      });
+    };
+
+    window.addEventListener("addToCart", handleAddToCartEvent);
+
+    return () => {
+      window.removeEventListener("addToCart", handleAddToCartEvent);
+    };
+  }, []);
+
+  const calculateTotal = () => {
+    return pizzaCart.reduce((total, pizza) => total + pizza.total, 0);
+  };
+
   const formatCurrency = (number) => {
     return number.toLocaleString("es-CL", {
       style: "currency",
       currency: "CLP",
     });
+  };
+
+  const handleCartClick = () => {
+    setShowCartDetail(!showCartDetail);
+  };
+
+  const handleDecreaseQuantity = (pizzaName) => {
+    setPizzaCart((prevCart) =>
+      prevCart.map((pizza) =>
+        pizza.name === pizzaName && pizza.quantity > 1
+          ? { ...pizza, quantity: pizza.quantity - 1, total: pizza.price * (pizza.quantity - 1) }
+          : pizza
+      )
+    );
+  };
+
+  const handleRemovePizza = (pizzaName) => {
+    setPizzaCart((prevCart) => prevCart.filter((pizza) => pizza.name !== pizzaName));
+  };
+
+  const handlePagar = () => {
+    console.log("Usuario ha clickeado pagar");
   };
 
   return (
@@ -45,53 +102,78 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link to="/home" className="nav-link">
                 <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
-                <Link to="./home">Home</Link>
-              </a>
+                Home
+              </Link>
             </li>
-            {token ? (
+            {isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <FontAwesomeIcon icon={faUserCircle} className="me-1" />{" "}
+                  <Link to="/profile" className="nav-link">
+                    <FontAwesomeIcon icon={faUserCircle} className="me-1" />
                     Profile
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <FontAwesomeIcon icon={faSignOutAlt} className="me-1" />{" "}
+                  <Link to="/" className="nav-link" onClick={onLogout}>
+                    <FontAwesomeIcon icon={faSignOutAlt} className="me-1" />
                     Logout
-                  </a>
+                  </Link>
                 </li>
               </>
             ) : (
               <>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link to="/login" className="nav-link">
                     <FontAwesomeIcon icon={faLock} className="me-1" />
-                    <Link to="/login" >Login</Link>
-                  </a>
+                    Login
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    <FontAwesomeIcon icon={faUserPlus} className="me-1" />{" "}
-                    <Link to='/register' >Register</Link>
-                  </a>
+                  <Link to="/register" className="nav-link">
+                    <FontAwesomeIcon icon={faUserPlus} className="me-1" />
+                    Register
+                  </Link>
                 </li>
               </>
             )}
           </ul>
         </div>
         <div className="d-flex align-items-center ms-auto">
-          <span className="navbar-text text-white me-2">
+          <button
+            className="btn btn-link navbar-text text-white me-2"
+            onClick={handleCartClick}
+          >
             <FontAwesomeIcon icon={faShoppingCart} className="me-1" /> Total:{" "}
-            {formatCurrency(total)}
-          </span>
+            {formatCurrency(calculateTotal())}
+          </button>
           <span className="navbar-text text-white">
-            {token ? "Token activo" : "Token inactivo"}
+            {isLoggedIn ? "Token activo" : "Token inactivo"}
           </span>
         </div>
+        {showCartDetail && (
+          <div className="cart-detail-container pizza-form">
+            <h2>Detalle del Carrito</h2>
+            {pizzaCart.length === 0 ? (
+              <p>No hay pizzas en el carrito.</p>
+            ) : (
+              <ul>
+                {pizzaCart.map((pizza, index) => (
+                  <li key={index} className="form-group">
+                    <img src={pizza.img} alt={pizza.name} className="pizza-image" />
+                    <span>{pizza.name} - Cantidad: {pizza.quantity}</span>
+                    <div>
+                      <button onClick={() => handleDecreaseQuantity(pizza.name)}>-</button>
+                      <button onClick={() => handleRemovePizza(pizza.name)}>Eliminar</button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button className="pizza-form button" onClick={handlePagar}>Pagar</button>
+          </div>
+        )}
       </div>
     </nav>
   );

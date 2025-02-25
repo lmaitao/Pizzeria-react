@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import Header from "../components/Header/Header";
 import CardPizza from "../components/CardPizza/CardPizza";
-import Cart from '../pages/Cart'
-import '../components/Pizzas/Pizzas.css'
+import '../components/Pizzas/Pizzas.css';
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([]);
-  const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -29,14 +27,19 @@ function Pizzas() {
   }, []);
 
   const addToCart = (pizza, quantity) => {
-    const existingPizza = cart.find(item => item.name === pizza.name);
-    if (existingPizza) {
-      setCart(cart.map(item =>
-        item.name === pizza.name ? { ...item, quantity: item.quantity + quantity } : item
-      ));
-    } else {
-      setCart([...cart, { ...pizza, quantity }]);
-    }
+    const pizzaToAdd = {
+      name: pizza.nombre,
+      price: pizza.precio,
+      img: pizza.img,
+      quantity: quantity,
+      total: pizza.precio * quantity
+    };
+
+    const addToCartEvent = new CustomEvent('addToCart', {
+      detail: pizzaToAdd
+    });
+
+    window.dispatchEvent(addToCartEvent);
   };
 
   if (loading) {
@@ -59,7 +62,6 @@ function Pizzas() {
           />
         ))}
       </div>
-      <Cart pizzaCart={cart}/>
     </div>
   );
 }
