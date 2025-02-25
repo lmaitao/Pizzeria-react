@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import Header from "../Header/Header";
 import CardPizza from "../CardPizza/CardPizza";
 import Cart from '../Cart/Cart'
-import '../Home/Home.css'
+import '../Pizzas/Pizzas.css'
 
-function Home() {
+function Pizzas() {
   const [pizzas, setPizzas] = useState([]);
   const [cart, setCart] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -64,4 +64,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Pizzas;

@@ -70,13 +70,13 @@ const Navbar = () => {
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     <FontAwesomeIcon icon={faLock} className="me-1" />
-                    <Link to="/login" target="_blank" rel="noopener noreferrer">Login</Link>
+                    <Link to="/login" >Login</Link>
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
                     <FontAwesomeIcon icon={faUserPlus} className="me-1" />{" "}
-                    <Link to="/register" target="_blank" rel="noopener noreferrer">Register</Link>
+                    <Link to='/register' >Register</Link>
                   </a>
                 </li>
               </>
