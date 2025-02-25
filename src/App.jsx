@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Routes, Route,} from 'react-router-dom';
 const App = () => {
   return (
     <>
-        <Router>
+      <Router>
           <NavBar />
           <Routes>
               <Route path="/" element={<Pizzas />} />
@@ -18,8 +18,8 @@ const App = () => {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
           </Routes>
-        </Router>
-        <Footer />
+          <Footer />
+      </Router>
     </>
   );
 };
