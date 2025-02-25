@@ -1,0 +1,66 @@
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.924); /* Fondo similar al login */
+  font-family: sans-serif;
+}
+
+.pizza-slice {
+  width: 150px;
+  height: 150px;
+  background-color: #ff9f1c; /* Color de la pizza */
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  animation: spin 4s linear infinite; /* Animación de rotación */
+  margin-bottom: 30px;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+h1 {
+  color: #8b0000; /* Rojo oscuro como en el login */
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+p {
+  color: #333;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.home-button {
+  background-color: #ff5722; /* Naranja como el botón del login */
+  color: #fff;
+  padding: 16px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.home-button:hover {
+  background-color: #e64a19;
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

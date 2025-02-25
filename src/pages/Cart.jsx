@@ -1,4 +1,4 @@
-import '../Cart/Cart.css';
+import '../components/Cart/Cart.css';
 
 import { useState, useEffect } from 'react';
 
