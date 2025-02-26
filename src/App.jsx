@@ -1,6 +1,7 @@
 import { useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import Pizzas from "./pages/Pizzas";
+import Home from "./pages/Home";
 import Footer from "./components/Footer/Footer";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -32,8 +33,9 @@ const AppContent = () => {
     <>
       <NavBar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Pizzas />} />
-        <Route path="/home" element={<Pizzas />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/pizzas" element={<Pizzas />} />
         <Route path="/login" element={<Login onLoginSuccess={() => setIsLoggedIn(true)} />} />
         <Route path="/register" element={<Register onRegisterSuccess={() => setIsLoggedIn(true)} />} />
         <Route path="/profile" element={<Profile onLogout={handleLogout} />} />

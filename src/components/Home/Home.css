@@ -1,0 +1,8 @@
+.pizzas-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
+}
