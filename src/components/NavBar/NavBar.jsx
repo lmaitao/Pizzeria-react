@@ -6,6 +6,8 @@ import {
   faUserCircle,
   faSignOutAlt,
   faShoppingCart,
+  faHome,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -103,7 +105,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link to="/home" className="nav-link">
-                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
+                <FontAwesomeIcon icon={faHome} className="me-1" />
                 Home
               </Link>
             </li>
@@ -140,6 +142,12 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                   <Link to="/register" className="nav-link">
                     <FontAwesomeIcon icon={faUserPlus} className="me-1" />
                     Register
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">
+                    <FontAwesomeIcon icon={faUser} className="me-1" />
+                    Profile
                   </Link>
                 </li>
               </>
