@@ -93,3 +93,14 @@
   background-color: #d91484;
   color: white;
 }
+.card-description {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #555;
+  opacity: 0; 
+  transition: opacity 0.3s ease;
+}
+
+.card-description.show {
+  opacity: 1; 
+}
