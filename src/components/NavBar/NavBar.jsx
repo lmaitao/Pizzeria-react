@@ -1,3 +1,4 @@
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPizzaSlice,
@@ -7,47 +8,16 @@ import {
   faSignOutAlt,
   faShoppingCart,
   faHome,
-  faUser
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { CartContext } from "../Cart/Cartcontext";
 import "../Cart/Cart.css";
 
 const Navbar = ({ isLoggedIn, onLogout }) => {
-  const [pizzaCart, setPizzaCart] = useState([]);
+  const { pizzaCart, calculateTotal, removeFromCart, decreaseQuantity } =
+    useContext(CartContext);
   const [showCartDetail, setShowCartDetail] = useState(false);
-
-  useEffect(() => {
-    const handleAddToCartEvent = (event) => {
-      const pizzaToAdd = event.detail;
-      setPizzaCart((prevCart) => {
-        const existingPizzaIndex = prevCart.findIndex(
-          (pizza) => pizza.name === pizzaToAdd.name
-        );
-
-        if (existingPizzaIndex !== -1) {
-          const updatedCart = [...prevCart];
-          updatedCart[existingPizzaIndex].quantity += pizzaToAdd.quantity;
-          updatedCart[existingPizzaIndex].total =
-            updatedCart[existingPizzaIndex].quantity *
-            updatedCart[existingPizzaIndex].price;
-          return updatedCart;
-        } else {
-          return [...prevCart, pizzaToAdd];
-        }
-      });
-    };
-
-    window.addEventListener("addToCart", handleAddToCartEvent);
-
-    return () => {
-      window.removeEventListener("addToCart", handleAddToCartEvent);
-    };
-  }, []);
-
-  const calculateTotal = () => {
-    return pizzaCart.reduce((total, pizza) => total + pizza.total, 0);
-  };
 
   const formatCurrency = (number) => {
     return number.toLocaleString("es-CL", {
@@ -61,17 +31,11 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
   };
 
   const handleDecreaseQuantity = (pizzaName) => {
-    setPizzaCart((prevCart) =>
-      prevCart.map((pizza) =>
-        pizza.name === pizzaName && pizza.quantity > 1
-          ? { ...pizza, quantity: pizza.quantity - 1, total: pizza.price * (pizza.quantity - 1) }
-          : pizza
-      )
-    );
+    decreaseQuantity(pizzaName);
   };
 
   const handleRemovePizza = (pizzaName) => {
-    setPizzaCart((prevCart) => prevCart.filter((pizza) => pizza.name !== pizzaName));
+    removeFromCart({ name: pizzaName });
   };
 
   const handlePagar = () => {
@@ -128,10 +92,10 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
               <>
                 <li className="nav-item">
                   <Link to="/pizzas" className="nav-link">
-                  <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
+                    <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
                     Pizzas
                   </Link>
-                  </li>
+                </li>
                 <li className="nav-item">
                   <Link to="/login" className="nav-link">
                     <FontAwesomeIcon icon={faLock} className="me-1" />
@@ -175,17 +139,29 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
               <ul>
                 {pizzaCart.map((pizza, index) => (
                   <li key={index} className="form-group">
-                    <img src={pizza.img} alt={pizza.name} className="pizza-image" />
-                    <span>{pizza.name} - Cantidad: {pizza.quantity}</span>
+                    <img
+                      src={pizza.img}
+                      alt={pizza.name}
+                      className="pizza-image"
+                    />
+                    <span>
+                      {pizza.name} - Cantidad: {pizza.quantity}
+                    </span>
                     <div>
-                      <button onClick={() => handleDecreaseQuantity(pizza.name)}>-</button>
-                      <button onClick={() => handleRemovePizza(pizza.name)}>Eliminar</button>
+                      <button onClick={() => handleDecreaseQuantity(pizza.name)}>
+                        -
+                      </button>
+                      <button onClick={() => handleRemovePizza(pizza.name)}>
+                        Eliminar
+                      </button>
                     </div>
                   </li>
                 ))}
               </ul>
             )}
-            <button className="pizza-form button" onClick={handlePagar}>Pagar</button>
+            <button className="pizza-form button" onClick={handlePagar}>
+              Pagar
+            </button>
           </div>
         )}
       </div>

@@ -9,12 +9,15 @@ import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import ErrorBoundary from "./Error";
+import { CartProvider } from "./components/Cart/Cartcontext"; 
 
 const App = () => {
   return (
     <Router>
       <ErrorBoundary>
-        <AppContent />
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
       </ErrorBoundary>
     </Router>
   );
