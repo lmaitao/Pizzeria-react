@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Header from "../components/Header/Header";
 import CardPizza from "../components/CardPizza/CardPizza";
 import '../components/Home/Home.css';
+import { CartContext } from '../components/Cart/Cartcontext';
 
 function Home() {
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     fetch('http://localhost:5000/api/pizzas')
@@ -26,22 +28,6 @@ function Home() {
       });
   }, []);
 
-  const addToCart = (pizza, quantity) => {
-    const pizzaToAdd = {
-      name: pizza.nombre,
-      price: pizza.precio,
-      img: pizza.img,
-      quantity: quantity,
-      total: pizza.precio * quantity
-    };
-
-    const addToCartEvent = new CustomEvent('addToCart', {
-      detail: pizzaToAdd
-    });
-
-    window.dispatchEvent(addToCartEvent);
-  };
-
   if (loading) {
     return <p>Cargando pizzas...</p>;
   }
@@ -56,7 +42,7 @@ function Home() {
       <div className="pizzas-container">
         {pizzas.map(pizza => (
           <CardPizza
-            key={pizza.nombre}
+            key={pizza.id}
             {...pizza}
             addToCart={addToCart}
           />

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../CardPizza/CardPizza.css';
 
-const CardPizza = ({ name, price, ingredients, img, id }) => {
+const CardPizza = ({ name, price, ingredients, img, id, addToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [isFlipped, setIsFlipped] = useState(false);
   const [description, setDescription] = useState('');
@@ -30,18 +30,16 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
 
   const handleAddToCart = () => {
     const pizzaToAdd = {
+      id,
       name,
       price,
       ingredients,
       img,
-      quantity,
+      quantity: quantity,
       total: price * quantity,
     };
 
-    const addToCartEvent = new CustomEvent('addToCart', {
-      detail: pizzaToAdd,
-    });
-    window.dispatchEvent(addToCartEvent);
+    addToCart(pizzaToAdd);
   };
 
   const handleVerMas = () => {
