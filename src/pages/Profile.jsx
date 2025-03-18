@@ -9,7 +9,7 @@ function Profile() {
   const { logout } = useContext(UserContext);
 
   const handleLogout = () => {
-    logout(); 
+    logout();
     navigate('/');
   };
 
