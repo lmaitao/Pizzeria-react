@@ -22,9 +22,9 @@ const Cart = () => {
               <div className="pizza-details">
                 <h3>{pizza.name}</h3>
                 <div className="quantity-selector">
-                  <button onClick={() => decreaseQuantity(pizza)}>-</button>
+                  <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
                   <span>{pizza.quantity}</span>
-                  <button onClick={() => increaseQuantity(pizza)}>+</button>
+                  <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
                 </div>
                 <p>Precio: ${pizza.total}</p>
               </div>
