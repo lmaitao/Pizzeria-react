@@ -7,10 +7,10 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
-import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import ErrorBoundary from "./Error";
 import { CartProvider } from "./components/Cart/Cartcontext";
-import { UserContext, UserProvider } from './components/Profile/Usercontext'; // Importa el contexto
+import { UserContext, UserProvider } from './components/Profile/Usercontext';
 
 const App = () => {
   return (
@@ -27,25 +27,21 @@ const App = () => {
 };
 
 const AppContent = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext); // Usa el contexto
-  const navigate = useNavigate();
+  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    navigate("/");
-  };
-
+  // eslint-disable-next-line react/prop-types
   const ProtectedRoute = ({ element }) => {
     return isLoggedIn ? element : <Navigate to="/login" />;
   };
 
+  // eslint-disable-next-line react/prop-types
   const RedirectIfLoggedIn = ({ element }) => {
     return isLoggedIn ? <Navigate to="/" /> : element;
   };
 
   return (
     <>
-      <NavBar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <NavBar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -68,7 +64,7 @@ const AppContent = () => {
         />
         <Route
           path="/profile"
-          element={<ProtectedRoute element={<Profile onLogout={handleLogout} />} />}
+          element={<ProtectedRoute element={<Profile />} />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

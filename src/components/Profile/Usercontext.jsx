@@ -1,10 +1,11 @@
 import { createContext, useState } from 'react';
 
 export const UserContext = createContext({
-  token: true, // Valor por defecto del token
+  token: true,
   logout: () => {},
 });
 
+// eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(true);
 

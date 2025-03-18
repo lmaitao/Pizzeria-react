@@ -1,23 +1,13 @@
-import '../components/Profile/Profile.css';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../components/Profile/Usercontext';
+import '../components/Profile/Profile.css'
 
-function Profile() {
+function Profile({ onLogout }) {
   const staticEmail = 'usuario@ejemplo.com';
-  const navigate = useNavigate();
-  const { logout } = useContext(UserContext);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
 
   return (
     <div className="profile-container">
       <h2>Perfil de Usuario</h2>
       <p>Email: {staticEmail}</p>
-      <button className="logout-button" onClick={handleLogout}>
+      <button className="logout-button" onClick={onLogout}>
         Cerrar Sesión
       </button>
     </div>
