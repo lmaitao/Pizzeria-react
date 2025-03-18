@@ -29,8 +29,8 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
     setShowCartDetail(!showCartDetail);
   };
 
-  const handleRemovePizza = (pizzaName) => {
-    removeFromCart({ name: pizzaName });
+  const handleRemovePizza = (pizzaId) => {
+    removeFromCart({ id: pizzaId });
   };
 
   const handlePagar = () => {
@@ -132,8 +132,8 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
               <p>No hay pizzas en el carrito.</p>
             ) : (
               <ul>
-                {pizzaCart.map((pizza, index) => (
-                  <li key={index} className="form-group">
+                {pizzaCart.map((pizza) => (
+                  <li key={pizza.id} className="form-group">
                     <img
                       src={pizza.img}
                       alt={pizza.name}
@@ -143,7 +143,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                       {pizza.name} - Cantidad: {pizza.quantity}
                     </span>
                     <div>
-                      <button onClick={() => handleRemovePizza(pizza.name)}>
+                      <button onClick={() => handleRemovePizza(pizza.id)}>
                         Eliminar
                       </button>
                     </div>

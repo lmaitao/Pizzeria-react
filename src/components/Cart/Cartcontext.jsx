@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (pizzaToAdd) => {
     setPizzaCart((prevCart) => {
       const existingPizzaIndex = prevCart.findIndex(
-        (pizza) => pizza.name === pizzaToAdd.name
+        (pizza) => pizza.id === pizzaToAdd.id
       );
 
       if (existingPizzaIndex !== -1) {
@@ -26,8 +26,40 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (pizzaToRemove) => {
     setPizzaCart((prevCart) =>
-      prevCart.filter((pizza) => pizza.name !== pizzaToRemove.name)
+      prevCart.filter((pizza) => pizza.id !== pizzaToRemove.id)
     );
+  };
+
+  const decreaseQuantity = (pizzaToRemove) => {
+    setPizzaCart((prevCart) => {
+      return prevCart.map((pizza) => {
+        if (pizza.id === pizzaToRemove.id) {
+          const newQuantity = Math.max(1, pizza.quantity - 1);
+          return {
+            ...pizza,
+            quantity: newQuantity,
+            total: newQuantity * pizza.price,
+          };
+        }
+        return pizza;
+      });
+    });
+  };
+
+  const increaseQuantity = (pizzaToAdd) => {
+    setPizzaCart((prevCart) => {
+      return prevCart.map((pizza) => {
+        if (pizza.id === pizzaToAdd.id) {
+          const newQuantity = pizza.quantity + 1;
+          return {
+            ...pizza,
+            quantity: newQuantity,
+            total: newQuantity * pizza.price,
+          };
+        }
+        return pizza;
+      });
+    });
   };
 
   const calculateTotal = () => {
@@ -41,6 +73,8 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         calculateTotal,
+        decreaseQuantity,
+        increaseQuantity,
       }}
     >
       {children}

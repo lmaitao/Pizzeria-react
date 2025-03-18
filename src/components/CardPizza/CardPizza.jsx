@@ -32,6 +32,7 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
 
   const handleAddToCart = () => {
     const pizzaToAdd = {
+      id,
       name,
       price,
       ingredients,

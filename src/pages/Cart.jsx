@@ -3,7 +3,7 @@ import { CartContext } from '../components/Cart/Cartcontext';
 import '../components/Cart/Cart.css';
 
 const Cart = () => {
-  const { pizzaCart, removeFromCart, calculateTotal } = useContext(CartContext);
+  const { pizzaCart, removeFromCart, calculateTotal, decreaseQuantity, increaseQuantity } = useContext(CartContext);
 
   const handlePagar = () => {
     console.log('Usuario ha clickeado pagar');
@@ -16,12 +16,16 @@ const Cart = () => {
         <p>No hay pizzas en el carrito.</p>
       ) : (
         <ul>
-          {pizzaCart.map((pizza, index) => (
-            <li key={index}>
+          {pizzaCart.map((pizza) => (
+            <li key={pizza.id}>
               <img src={pizza.img} alt={pizza.name} className="pizza-image" />
               <div className="pizza-details">
                 <h3>{pizza.name}</h3>
-                <p>Cantidad: {pizza.quantity}</p>
+                <div className="quantity-selector">
+                  <button onClick={() => decreaseQuantity(pizza)}>-</button>
+                  <span>{pizza.quantity}</span>
+                  <button onClick={() => increaseQuantity(pizza)}>+</button>
+                </div>
                 <p>Precio: ${pizza.total}</p>
               </div>
               <button

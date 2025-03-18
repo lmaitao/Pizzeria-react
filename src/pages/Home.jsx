@@ -19,7 +19,7 @@ function Home() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setPizzas(data.slice(0, 3)); // Obtiene solo las primeras 3 pizzas
+        setPizzas(data.slice(0, 3));
         setError(null);
       } catch (e) {
         console.error("Error fetching pizzas:", e);
