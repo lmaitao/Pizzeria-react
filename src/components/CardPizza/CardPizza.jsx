@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../Cart/Cartcontext';
 import '../CardPizza/CardPizza.css';

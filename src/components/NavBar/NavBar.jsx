@@ -41,7 +41,6 @@ const Navbar = () => {
 
   const handleLogoutWrapper = () => {
     logout();
-
   };
 
   return (
@@ -75,6 +74,12 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
+            <li className="nav-item">
+              <Link to="/pizzas" className="nav-link">
+                <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
+                Pizzas
+              </Link>
+            </li>
             {token ? (
               <>
                 <li className="nav-item">
@@ -92,12 +97,6 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <li className="nav-item">
-                  <Link to="/pizzas" className="nav-link">
-                    <FontAwesomeIcon icon={faPizzaSlice} className="me-1" />
-                    Pizzas
-                  </Link>
-                </li>
                 <li className="nav-item">
                   <Link to="/login" className="nav-link">
                     <FontAwesomeIcon icon={faLock} className="me-1" />
