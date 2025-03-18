@@ -11,21 +11,25 @@ function Home() {
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/pizzas')
-      .then(response => {
+    const fetchPizzas = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/pizzas');
         if (!response.ok) {
-          throw new Error('Error al obtener las pizzas');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then(data => {
-        setPizzas(data);
+        const data = await response.json();
+        setPizzas(data.slice(0, 3)); // Obtiene solo las primeras 3 pizzas
+        setError(null);
+      } catch (e) {
+        console.error("Error fetching pizzas:", e);
+        setError(e);
+      } finally {
         setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchPizzas();
   }, []);
 
   if (loading) {
@@ -33,7 +37,7 @@ function Home() {
   }
 
   if (error) {
-    return <p>Error: {error.message}</p>;
+    return <p>Error al cargar las pizzas: {error.message}</p>;
   }
 
   return (
@@ -42,7 +46,7 @@ function Home() {
       <div className="pizzas-container">
         {pizzas.map(pizza => (
           <CardPizza
-            key={pizza.id}
+            key={pizza._id || pizza.id || pizza.nombre}
             {...pizza}
             addToCart={addToCart}
           />

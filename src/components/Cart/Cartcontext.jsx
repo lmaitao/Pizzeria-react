@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (pizzaToAdd) => {
     setPizzaCart((prevCart) => {
       const existingPizzaIndex = prevCart.findIndex(
-        (pizza) => pizza.id === pizzaToAdd.id
+        (pizza) => pizza.name === pizzaToAdd.name
       );
 
       if (existingPizzaIndex !== -1) {
@@ -24,32 +24,9 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const decreaseQuantity = (pizzaToDecrease) => {
-    setPizzaCart((prevCart) => {
-      const existingPizzaIndex = prevCart.findIndex(
-        (pizza) => pizza.id === pizzaToDecrease.id
-      );
-
-      if (existingPizzaIndex !== -1) {
-        const updatedCart = [...prevCart];
-        if (updatedCart[existingPizzaIndex].quantity > 1) {
-          updatedCart[existingPizzaIndex].quantity -= 1;
-          updatedCart[existingPizzaIndex].total =
-            updatedCart[existingPizzaIndex].quantity *
-            updatedCart[existingPizzaIndex].price;
-        } else {
-          return prevCart.filter((pizza) => pizza.id !== pizzaToDecrease.id);
-        }
-        return updatedCart;
-      } else {
-        return prevCart;
-      }
-    });
-  };
-
   const removeFromCart = (pizzaToRemove) => {
     setPizzaCart((prevCart) =>
-      prevCart.filter((pizza) => pizza.id !== pizzaToRemove.id)
+      prevCart.filter((pizza) => pizza.name !== pizzaToRemove.name)
     );
   };
 
@@ -64,7 +41,6 @@ export const CartProvider = ({ children }) => {
         addToCart,
         removeFromCart,
         calculateTotal,
-        decreaseQuantity,
       }}
     >
       {children}

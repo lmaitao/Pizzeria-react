@@ -1,54 +1,43 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Header from "../components/Header/Header";
 import CardPizza from "../components/CardPizza/CardPizza";
 import '../components/Pizzas/Pizzas.css';
+import { CartContext } from '../components/Cart/Cartcontext';
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/pizzas/p001')
-      .then(response => {
+    const fetchPizzas = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/pizzas');
         if (!response.ok) {
-          throw new Error('Error al obtener las pizzas');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
-      })
-      .then(data => {
-        setPizzas([data]);
+        const data = await response.json();
+        setPizzas(data);
+        setError(null);
+      } catch (e) {
+        console.error("Error fetching pizzas:", e);
+        setError(e);
+      } finally {
         setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
-
-  const addToCart = (pizza, quantity) => {
-    const pizzaToAdd = {
-      id: pizza.id,
-      name: pizza.nombre,
-      price: pizza.precio,
-      img: pizza.img,
-      quantity: quantity,
-      total: pizza.precio * quantity
+      }
     };
 
-    const addToCartEvent = new CustomEvent('addToCart', {
-      detail: pizzaToAdd
-    });
-
-    window.dispatchEvent(addToCartEvent);
-  };
+    fetchPizzas();
+  }, []);
 
   if (loading) {
     return <p>Cargando pizzas...</p>;
   }
 
   if (error) {
-    return <p>Error: {error.message}</p>;
+    return <p>Error al cargar las pizzas: {error.message}</p>;
   }
 
   return (
@@ -57,7 +46,7 @@ function Pizzas() {
       <div className="pizzas-container">
         {pizzas.map(pizza => (
           <CardPizza
-            key={pizza.nombre}
+            key={pizza._id || pizza.id || pizza.nombre}
             {...pizza}
             addToCart={addToCart}
           />

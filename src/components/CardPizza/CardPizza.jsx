@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { CartContext } from '../Cart/Cartcontext';
 import '../CardPizza/CardPizza.css';
 
-const CardPizza = ({ name, price, ingredients, img, id, addToCart }) => {
+const CardPizza = ({ name, price, ingredients, img, id }) => {
   const [quantity, setQuantity] = useState(1);
   const [isFlipped, setIsFlipped] = useState(false);
   const [description, setDescription] = useState('');
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchDescription = async () => {
@@ -30,15 +32,13 @@ const CardPizza = ({ name, price, ingredients, img, id, addToCart }) => {
 
   const handleAddToCart = () => {
     const pizzaToAdd = {
-      id,
       name,
       price,
       ingredients,
       img,
-      quantity: quantity,
+      quantity,
       total: price * quantity,
     };
-
     addToCart(pizzaToAdd);
   };
 
