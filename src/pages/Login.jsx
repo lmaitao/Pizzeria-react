@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../components/Login/Login.css';
+import { UserContext } from '../components/Profile/Usercontext';
 
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { setToken } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ const Login = ({ onLoginSuccess }) => {
     if (email === 'test@example.com' && password === 'password123') {
       setSuccess('¡Inicio de sesión exitoso!');
       setError('');
-      onLoginSuccess();
+      setToken(true);
       navigate('/profile');
     } else {
       setError('Credenciales incorrectas.');

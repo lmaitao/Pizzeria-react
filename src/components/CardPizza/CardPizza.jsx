@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../Cart/Cartcontext';
 import '../CardPizza/CardPizza.css';
-import { Link } from 'react-router-dom';
 
 const CardPizza = ({ name, price, ingredients, img, id }) => {
   const [quantity, setQuantity] = useState(1);
@@ -77,7 +76,6 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
               <button className="add-to-cart" onClick={handleAddToCart}>
                 Añadir al carrito
               </button>
-              <Link to={`/pizzas/${id}`} className="view-pizza">Ver Pizza</Link>
             </div>
           </div>
         </div>

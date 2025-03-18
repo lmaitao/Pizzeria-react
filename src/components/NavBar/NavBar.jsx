@@ -13,10 +13,12 @@ import {
 import { Link } from "react-router-dom";
 import { CartContext } from "../Cart/Cartcontext";
 import "../Cart/Cart.css";
+import { UserContext } from '../Profile/Usercontext';
 
-const Navbar = ({ isLoggedIn, onLogout }) => {
+const Navbar = () => {
   const { pizzaCart, calculateTotal, removeFromCart, decreaseQuantity, increaseQuantity } = useContext(CartContext);
   const [showCartDetail, setShowCartDetail] = useState(false);
+  const { token, logout } = useContext(UserContext);
 
   const formatCurrency = (number) => {
     return number.toLocaleString("es-CL", {
@@ -35,6 +37,11 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
 
   const handlePagar = () => {
     console.log("Usuario ha clickeado pagar");
+  };
+
+  const handleLogoutWrapper = () => {
+    logout();
+
   };
 
   return (
@@ -68,7 +75,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                 Home
               </Link>
             </li>
-            {isLoggedIn ? (
+            {token ? (
               <>
                 <li className="nav-item">
                   <Link to="/profile" className="nav-link">
@@ -77,7 +84,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link" onClick={onLogout}>
+                  <Link to="/" className="nav-link" onClick={handleLogoutWrapper}>
                     <FontAwesomeIcon icon={faSignOutAlt} className="me-1" />
                     Logout
                   </Link>
@@ -122,7 +129,7 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
             {formatCurrency(calculateTotal())}
           </button>
           <span className="navbar-text text-white">
-            {isLoggedIn ? "Token activo" : "Token inactivo"}
+            {token ? "Token activo" : "Token inactivo"}
           </span>
         </div>
         {showCartDetail && (

@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../components/Register/Register.css';
+import { UserContext } from '../components/Profile/Usercontext';
 
-const Register = ({ onRegisterSuccess }) => {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { setToken } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ const Register = ({ onRegisterSuccess }) => {
     }
 
     setTimeout(() => {
-      onRegisterSuccess();
+      setToken(true);
       navigate('/profile');
     }, 1000);
   };
