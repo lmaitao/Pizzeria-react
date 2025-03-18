@@ -15,7 +15,7 @@ import { CartContext } from "../Cart/Cartcontext";
 import "../Cart/Cart.css";
 
 const Navbar = ({ isLoggedIn, onLogout }) => {
-  const { pizzaCart, calculateTotal, removeFromCart } = useContext(CartContext);
+  const { pizzaCart, calculateTotal, removeFromCart, decreaseQuantity, increaseQuantity } = useContext(CartContext);
   const [showCartDetail, setShowCartDetail] = useState(false);
 
   const formatCurrency = (number) => {
@@ -142,6 +142,11 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
                     <span>
                       {pizza.name} - Cantidad: {pizza.quantity}
                     </span>
+                    <div className="quantity-selector">
+                      <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
+                      <span>{pizza.quantity}</span>
+                      <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
+                    </div>
                     <div>
                       <button onClick={() => handleRemovePizza(pizza.id)}>
                         Eliminar
