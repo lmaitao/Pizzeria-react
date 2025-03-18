@@ -1,49 +1,70 @@
-import { useContext } from 'react';
-import { CartContext } from '../components/Cart/Cartcontext';
-import '../components/Cart/Cart.css';
+import { useContext, useEffect, useState } from 'react';
+import { CartContext } from './Cartcontext';
+import { UserContext } from '../components/Profile/Usercontext';
+import './Cart.css';
 
-const Cart = () => {
-  const { pizzaCart, removeFromCart, calculateTotal, decreaseQuantity, increaseQuantity } = useContext(CartContext);
+function Cart() {
+  const { pizzaCart, calculateTotal, removeFromCart, decreaseQuantity, increaseQuantity } = useContext(CartContext);
+  const { token } = useContext(UserContext);
+  const [showPayButton, setShowPayButton] = useState(token);
+
+  useEffect(() => {
+    setShowPayButton(token);
+  }, [token]);
+
+  const formatCurrency = (number) => {
+    return number.toLocaleString("es-CL", {
+      style: "currency",
+      currency: "CLP",
+    });
+  };
 
   const handlePagar = () => {
-    console.log('Usuario ha clickeado pagar');
+    console.log("Usuario ha clickeado pagar");
   };
 
   return (
-    <div className="carrito-container">
-      <h2>Detalle del Pedido</h2>
+    <div className="cart-detail-container pizza-form">
+      <h2>Detalle del Carrito</h2>
       {pizzaCart.length === 0 ? (
         <p>No hay pizzas en el carrito.</p>
       ) : (
         <ul>
           {pizzaCart.map((pizza) => (
-            <li key={pizza.id}>
-              <img src={pizza.img} alt={pizza.name} className="pizza-image" />
-              <div className="pizza-details">
-                <h3>{pizza.name}</h3>
-                <div className="quantity-selector">
-                  <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
-                  <span>{pizza.quantity}</span>
-                  <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
-                </div>
-                <p>Precio: ${pizza.total}</p>
+            <li key={pizza.id} className="form-group">
+              <img
+                src={pizza.img}
+                alt={pizza.name}
+                className="pizza-image"
+              />
+              <span>
+                {pizza.name} - Cantidad: {pizza.quantity}
+              </span>
+              <div className="quantity-selector">
+                <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
+                <span>{pizza.quantity}</span>
+                <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
               </div>
-              <button
-                className="remove-pizza-button"
-                onClick={() => removeFromCart(pizza)}
-              >
-                Eliminar
-              </button>
+              <div>
+                <button onClick={() => removeFromCart(pizza.id)}>
+                  Eliminar
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       )}
-      <h3 className="carrito-total">Total: ${calculateTotal()}</h3>
-      <button className="pagar-button" onClick={handlePagar}>
-        Pagar
-      </button>
+      {showPayButton && (
+        <button
+          className="pizza-form button"
+          onClick={handlePagar}
+        >
+          Pagar ({formatCurrency(calculateTotal())})
+        </button>
+      )}
+      {!token && <p>Debes iniciar sesión para pagar.</p>}
     </div>
   );
-};
+}
 
 export default Cart;
