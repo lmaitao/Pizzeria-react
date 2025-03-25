@@ -1,5 +1,6 @@
 import { createContext, useState } from 'react';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext();
 
 // eslint-disable-next-line react/prop-types
@@ -14,13 +15,13 @@ export const CartProvider = ({ children }) => {
 
       if (existingPizzaIndex !== -1) {
         const updatedCart = [...prevCart];
-        updatedCart[existingPizzaIndex].quantity += pizzaToAdd.quantity;
+        updatedCart[existingPizzaIndex].quantity += 1;
         updatedCart[existingPizzaIndex].total =
           updatedCart[existingPizzaIndex].quantity *
           updatedCart[existingPizzaIndex].price;
         return updatedCart;
       } else {
-        return [...prevCart, pizzaToAdd];
+        return [...prevCart, { ...pizzaToAdd, quantity: 1, total: pizzaToAdd.price }];
       }
     });
   };

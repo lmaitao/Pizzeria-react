@@ -3,8 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../Cart/Cartcontext';
 import '../CardPizza/CardPizza.css';
 
+
 const CardPizza = ({ name, price, ingredients, img, id }) => {
-  const [quantity, setQuantity] = useState(1);
   const [isFlipped, setIsFlipped] = useState(false);
   const [description, setDescription] = useState('');
   const { addToCart } = useContext(CartContext);
@@ -38,8 +38,6 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
       price,
       ingredients,
       img,
-      quantity,
-      total: price * quantity,
     };
     addToCart(pizzaToAdd);
   };
@@ -61,15 +59,6 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
                 <li key={index}>{ingredient}</li>
               ))}
             </ul>
-            <div className="quantity-selector">
-              <button
-                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
-              >
-                -
-              </button>
-              <span>{quantity}</span>
-              <button onClick={() => setQuantity(quantity + 1)}>+</button>
-            </div>
             <div className="card-buttons">
               <button className="ver-mas" onClick={handleVerMas}>
                 Ver más
