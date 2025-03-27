@@ -10,9 +10,9 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
-  const { setToken } = useContext(UserContext);
+  const { register } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
@@ -32,10 +32,15 @@ const Register = () => {
       return;
     }
 
-    setTimeout(() => {
-      setToken(true);
-      navigate('/profile');
-    }, 1000);
+    try {
+      await register(email, password);
+      setSuccess('Registro exitoso.');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } catch (err) {
+      setError(err.message || 'Error al registrar usuario.');
+    }
   };
 
   return (

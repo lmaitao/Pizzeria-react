@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import ErrorBoundary from "./Error";
 import { CartProvider } from "./components/Cart/Cartcontext";
 import { UserContext, UserProvider } from './components/Profile/Usercontext';
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   return (
@@ -27,45 +28,21 @@ const App = () => {
 };
 
 const AppContent = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
-  // eslint-disable-next-line react/prop-types
-  const ProtectedRoute = ({ element }) => {
-    return isLoggedIn ? element : <Navigate to="/login" />;
-  };
-
-  // eslint-disable-next-line react/prop-types
-  const RedirectIfLoggedIn = ({ element }) => {
-    return isLoggedIn ? <Navigate to="/" /> : element;
+  const RedirectIfLoggedIn = ({ children }) => {
+    return token ? <Navigate to="/home" /> : children;
   };
 
   return (
     <>
-      <NavBar isLoggedIn={isLoggedIn} />
+      <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/pizzas" element={<Pizzas />} />
-        <Route
-          path="/login"
-          element={
-            <RedirectIfLoggedIn
-              element={<Login onLoginSuccess={() => setIsLoggedIn(true)} />}
-            />
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <RedirectIfLoggedIn
-              element={<Register onRegisterSuccess={() => setIsLoggedIn(true)} />}
-            />
-          }
-        />
-        <Route
-          path="/profile"
-          element={<ProtectedRoute element={<Profile />} />}
-        />
+        <Route path="/" element={<Register />} />
+        <Route path="/home" element={<ProtectedRoute> <Home /> </ProtectedRoute>} />
+        <Route path="/pizzas" element={<ProtectedRoute> <Pizzas /> </ProtectedRoute>} />
+        <Route path="/login" element={<RedirectIfLoggedIn> <Login /> </RedirectIfLoggedIn>} />
+        <Route path="/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

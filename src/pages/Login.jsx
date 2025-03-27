@@ -9,9 +9,9 @@ const Login = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
-  const { setToken } = useContext(UserContext);
+  const { login } = useContext(UserContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -20,19 +20,13 @@ const Login = () => {
       return;
     }
 
-    if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres.');
-      setSuccess('');
-      return;
-    }
-
-    if (email === 'test@example.com' && password === 'password123') {
+    try {
+      await login(email, password);
       setSuccess('¡Inicio de sesión exitoso!');
       setError('');
-      setToken(true);
-      navigate('/profile');
-    } else {
-      setError('Credenciales incorrectas.');
+      navigate('/home');
+    } catch (err) {
+      setError(err.message || 'Error al iniciar sesión.');
       setSuccess('');
     }
   };
