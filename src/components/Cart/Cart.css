@@ -5,7 +5,7 @@
   z-index: 1000;
   width: clamp(400px, 90%, 600px);
   margin: 20px auto;
-  padding: 15px;
+  padding: 20px;
   background-color: #fff8e7;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -32,20 +32,22 @@
 
 .cart-detail-container li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  gap: 10px;
 }
 
 .cart-detail-container li span {
   font-size: 16px;
   color: #333;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
 }
 
-.cart-detail-container li div {
+.cart-detail-container li .cart-item-buttons {
   display: flex;
   align-items: center;
+  gap: 10px; /* Aumenta el gap para separar los botones */
 }
 
 .cart-detail-container button, .quantity-button {
@@ -67,12 +69,18 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.pizza-image {
-  width: 80px;
-  height: 80px;
+.cart-item-image {
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   border-radius: 8px;
-  margin-right: 10px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  padding-top: 20px;
 }
 
 @keyframes fadeIn {
@@ -87,11 +95,11 @@
 .quantity-selector {
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .quantity-selector span {
-  margin: 0 8px;
+  margin: 0;
   font-size: 16px;
   color: #333;
 }
-

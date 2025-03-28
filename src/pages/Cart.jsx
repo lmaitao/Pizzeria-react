@@ -49,24 +49,26 @@ function Cart() {
   };
 
   return (
-    <div className="cart-detail-container pizza-form">
+    <div className="cart-detail-container">
       <h2>Detalle del Carrito</h2>
       {pizzaCart.length === 0 ? (
         <p>No hay pizzas en el carrito.</p>
       ) : (
         <ul>
           {pizzaCart.map((pizza) => (
-            <li key={pizza.id} className="form-group">
-              <img src={pizza.img} alt={pizza.name} className="pizza-image" />
-              <span>{pizza.name} - Cantidad: {pizza.quantity}</span>
-              <div className="quantity-selector">
-                <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
-                <span>{pizza.quantity}</span>
-                <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
+            <li key={pizza.id}>
+              <div className="cart-item">
+                <img src={pizza.img} alt={pizza.name} className="cart-item-image" />
+                <div className="cart-item-buttons">
+                  <div className="quantity-selector">
+                    <button className="quantity-button" onClick={() => decreaseQuantity(pizza)}>-</button>
+                    <span>{pizza.quantity}</span>
+                    <button className="quantity-button" onClick={() => increaseQuantity(pizza)}>+</button>
+                  </div>
+                  <button onClick={() => removeFromCart(pizza.id)}>Eliminar</button>
+                </div>
               </div>
-              <div>
-                <button onClick={() => removeFromCart(pizza.id)}>Eliminar</button>
-              </div>
+              <span>{pizza.name}</span>
             </li>
           ))}
         </ul>
