@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import { nanoid } from "nanoid";
@@ -36,7 +37,8 @@ const login = async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     return res.json({ email, token });
-  } catch (error) {
+  } catch  {
+  
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -70,8 +72,8 @@ const register = async (req, res) => {
     const token = jwt.sign(payload, process.env.JWT_SECRET);
 
     return res.json({ email, token });
-  } catch (error) {
-    // console.log(error);
+  } catch {
+
     return res.status(500).json({ error: "Server error" });
   }
 };
@@ -81,8 +83,8 @@ const me = async (req, res) => {
     const { email } = req.user;
     const user = await authModel.getUserByEmail(email);
     return res.json({ email, id: user.id });
-  } catch (error) {
-    // console.log(error);
+  } catch {
+
     return res.status(500).json({ error: "Server error" });
   }
 };

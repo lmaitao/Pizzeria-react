@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import Pizzas from "./pages/Pizzas";
@@ -38,11 +39,12 @@ const AppContent = () => {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Register />} />
+        <Route path="/" element={token ? <Navigate to="/home" /> : <Register />} />
         <Route path="/home" element={<ProtectedRoute> <Home /> </ProtectedRoute>} />
         <Route path="/pizzas" element={<ProtectedRoute> <Pizzas /> </ProtectedRoute>} />
         <Route path="/login" element={<RedirectIfLoggedIn> <Login /> </RedirectIfLoggedIn>} />
         <Route path="/profile" element={<ProtectedRoute> <Profile /> </ProtectedRoute>} />
+        <Route path="/register" element={<RedirectIfLoggedIn> <Register /> </RedirectIfLoggedIn>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

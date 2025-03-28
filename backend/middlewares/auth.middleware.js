@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
@@ -11,8 +12,8 @@ export const authMiddleware = (req, res, next) => {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
     next();
-  } catch (error) {
-    // console.log(error);
+  } catch  {
+
     return res.status(401).send({ error: "Invalid token" });
   }
 };

@@ -8,6 +8,9 @@ import {
   faSignOutAlt,
   faShoppingCart,
   faHome,
+  faPlus,
+  faMinus,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../Cart/Cartcontext";
@@ -37,18 +40,23 @@ const Navbar = () => {
 
   const handlePagar = () => {
     console.log("Usuario ha clickeado pagar");
-    // Implementar la lógica de pago aquí
+
+    alert("¡Compra exitosa! Gracias por tu compra.");
+
+    pizzaCart.forEach((pizza) => removeFromCart({ id: pizza.id }));
+
+    setShowCartDetail(false);
   };
 
   const handleLogoutWrapper = () => {
     logout();
-    navigate('/'); // Redirigir a la página de inicio después de cerrar sesión
+    navigate('/');
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
-        <Link className="navbar-brand" to="/home">
+        <Link className="navbar-brand" to={token ? "/home" : "/"}>
           <img src="./src/assets/img/Logo.jpg" alt="Logo" width="30" height="24" />
           Pizzeria Mamma Mia!
         </Link>
@@ -92,6 +100,12 @@ const Navbar = () => {
                     Register
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/login" className="nav-link">
+                    <FontAwesomeIcon icon={faLock} className="me-1" />
+                    Login
+                  </Link>
+                </li>
               </>
             )}
           </ul>
@@ -101,14 +115,36 @@ const Navbar = () => {
             <button className="btn btn-link navbar-text text-white me-2" onClick={handleCartClick}>
               <FontAwesomeIcon icon={faShoppingCart} className="me-1" /> Total: {formatCurrency(calculateTotal())}
             </button>
-            <span className="navbar-text text-white">
-              {token ? "Token activo" : "Token inactivo"}
-            </span>
           </div>
         )}
-        {showCartDetail && (
+        {showCartDetail && token && (
           <div className="cart-detail-container pizza-form">
-            {/* Detalle del carrito */}
+            <h2>Carrito de Compras</h2>
+            {pizzaCart.map((pizza) => (
+              <div key={pizza.id} className="cart-item">
+                <img src={pizza.img} alt={pizza.name} className="cart-item-image" />
+                <div className="cart-item-details">
+                  <h3>{pizza.name}</h3>
+                  <p>Precio: {formatCurrency(pizza.price)}</p>
+                  <div className="cart-item-quantity">
+                    <button onClick={() => decreaseQuantity(pizza)}>
+                      <FontAwesomeIcon icon={faMinus} />
+                    </button>
+                    <span>{pizza.quantity}</span>
+                    <button onClick={() => increaseQuantity(pizza)}>
+                      <FontAwesomeIcon icon={faPlus} />
+                    </button>
+                  </div>
+                </div>
+                <button className="cart-item-remove" onClick={() => handleRemovePizza(pizza.id)}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            ))}
+            <div className="cart-total">
+              <h3>Total: {formatCurrency(calculateTotal())}</h3>
+              <button className="cart-pay-button" onClick={handlePagar}>Pagar</button>
+            </div>
           </div>
         )}
       </div>

@@ -1,58 +1,59 @@
-import { useState, useEffect, useContext } from 'react';
-import '../components/Profile/Profile.css';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../components/Profile/Usercontext';
+import '../components/Profile/Profile.css';
 
-function Profile() {
-  const [user, setUser] = useState(null);
+const Profile = () => {
+  const { getProfile, user, logout } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const { email, logout, getProfile } = useContext(UserContext);
+  const [error, setError] = useState('');
+  const [profileFetched, setProfileFetched] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchProfile = async () => {
       setLoading(true);
+      setError('');
       try {
-        const userData = await getProfile();
-        setUser(userData);
-        setError(null);
+        const profileData = await getProfile();
+        if (isMounted) {
+          console.log('Datos del perfil obtenidos:', profileData);
+          setLoading(false);
+          setProfileFetched(true);
+        }
       } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        if (isMounted) {
+          console.error('Error al obtener el perfil en Profile:', err);
+          setError(err.message);
+          setLoading(false);
+          setProfileFetched(true);
+        }
       }
     };
 
-    fetchProfile();
-  }, [getProfile]);
+    if (!profileFetched) {
+      fetchProfile();
+    }
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+    return () => {
+      isMounted = false;
+    };
+  }, [getProfile, profileFetched]);
 
-  if (loading) {
-    return <p>Cargando perfil...</p>;
-  }
-
-  if (error) {
-    return <p>Error al cargar el perfil: {error}</p>;
-  }
-
-  if (!user) {
-    return <p>No se pudo obtener el perfil.</p>;
-  }
+  if (loading) return <p className="loading-message">Cargando perfil...</p>;
+  if (error) return <p className="error-message">Error: {error}</p>;
 
   return (
     <div className="profile-container">
-      <h2>Perfil de Usuario</h2>
-      <p>Email: {email}</p>
-      <button className="logout-button" onClick={handleLogout}>
-        Cerrar Sesión
-      </button>
+      {user && (
+        <>
+          <h2>Perfil de Usuario</h2>
+          <p>Email: {user.email}</p>
+          <button className="logout-button" onClick={logout}>Cerrar Sesión</button>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default Profile;

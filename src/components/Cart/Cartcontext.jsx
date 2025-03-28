@@ -1,11 +1,14 @@
-import { createContext, useState } from 'react';
+/* eslint-disable react/prop-types */
+import { createContext, useState, useEffect } from 'react';
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext();
 
-// eslint-disable-next-line react/prop-types
 export const CartProvider = ({ children }) => {
-  const [pizzaCart, setPizzaCart] = useState([]);
+  const [pizzaCart, setPizzaCart] = useState(JSON.parse(localStorage.getItem('pizzaCart')) || []);
+
+  useEffect(() => {
+    localStorage.setItem('pizzaCart', JSON.stringify(pizzaCart));
+  }, [pizzaCart]);
 
   const addToCart = (pizzaToAdd) => {
     setPizzaCart((prevCart) => {

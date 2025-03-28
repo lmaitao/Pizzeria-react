@@ -1,12 +1,12 @@
 import { useContext, useState } from 'react';
 import { CartContext } from './Cartcontext';
 import { UserContext } from '../components/Profile/Usercontext';
-import './Cart.css';
+import '../components/Cart/Cart.css';
 
 function Cart() {
   const { pizzaCart, calculateTotal, removeFromCart, decreaseQuantity, increaseQuantity } = useContext(CartContext);
   const { token } = useContext(UserContext);
-  const [purchaseSuccess, setPurchaseSuccess] = useState(false); // Estado para el mensaje de éxito
+  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
 
   const formatCurrency = (number) => {
     return number.toLocaleString("es-CL", {
@@ -42,9 +42,8 @@ function Cart() {
         throw new Error('No se pudo realizar el pago.');
       }
 
-      setPurchaseSuccess(true); // Establecer el estado de éxito a true
-      // Limpiar el carrito
-    } catch (err) {
+      setPurchaseSuccess(true);
+    } catch {
       alert('Error al realizar el pago.');
     }
   };
@@ -82,7 +81,7 @@ function Cart() {
           Pagar ({formatCurrency(calculateTotal())})
         </button>
       )}
-      {purchaseSuccess && ( // Mostrar el mensaje de éxito si purchaseSuccess es true
+      {purchaseSuccess && (
         <div className="success-message">
           Compra realizada con éxito.
         </div>

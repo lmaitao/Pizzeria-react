@@ -5,7 +5,8 @@ const create = async (req, res) => {
       cart: req.body,
       user: req.user,
     });
-  } catch (error) {
+  } catch {
+
     return res.status(500).json({ error: "Server error" });
   }
 };

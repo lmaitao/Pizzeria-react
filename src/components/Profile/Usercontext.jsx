@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import { createContext, useState } from 'react';
+import axios from 'axios';
 
 export const UserContext = createContext({
   token: null,
@@ -10,7 +12,6 @@ export const UserContext = createContext({
   getProfile: async () => {},
 });
 
-// eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState(localStorage.getItem('email'));
@@ -18,51 +19,43 @@ export const UserProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Credenciales incorrectas.');
-      }
-
-      const data = await response.json();
-      setToken(data.token);
-      setEmail(data.email);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('email', data.email);
+      setToken(response.data.token);
+      setEmail(response.data.email);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('email', response.data.email);
+      return response.data;
     } catch (err) {
-      throw err;
+      if (err.response) {
+        throw new Error(err.response.data.error || 'Credenciales incorrectas.');
+      } else {
+        throw err;
+      }
     }
   };
 
   const register = async (email, password) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post('http://localhost:5000/api/auth/register', {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al registrar usuario.');
-      }
-
-      const data = await response.json();
-      setToken(data.token);
-      setEmail(data.email);
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('email', data.email);
+      setToken(response.data.token);
+      setEmail(response.data.email);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('email', response.data.email);
+      return response.data;
     } catch (err) {
-      throw err;
+      if (err.response) {
+        throw new Error(err.response.data.error || 'Error al registrar usuario.');
+      } else {
+        throw err;
+      }
     }
   };
 
@@ -76,21 +69,20 @@ export const UserProvider = ({ children }) => {
 
   const getProfile = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await axios.get('http://localhost:5000/api/auth/me', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (!response.ok) {
-        throw new Error('No se pudo obtener el perfil.');
-      }
-
-      const data = await response.json();
-      setUser(data);
-      return data;
+      setUser(response.data);
+      return response.data;
     } catch (err) {
-      throw err;
+      if (err.response) {
+        throw new Error('No se pudo obtener el perfil.');
+      } else {
+        throw err;
+      }
     }
   };
 

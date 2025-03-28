@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import { CartContext } from '../Cart/Cartcontext';
 import '../CardPizza/CardPizza.css';
 
-
 const CardPizza = ({ name, price, ingredients, img, id }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [description, setDescription] = useState('');
@@ -38,6 +37,7 @@ const CardPizza = ({ name, price, ingredients, img, id }) => {
       price,
       ingredients,
       img,
+      quantity: 1, // Añadido: cantidad inicial
     };
     addToCart(pizzaToAdd);
   };
